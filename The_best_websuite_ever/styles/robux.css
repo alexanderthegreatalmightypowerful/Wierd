@@ -1,0 +1,68 @@
+
+
+
+
+.wheel {
+        margin-top: 5rem;
+        height: 700px;
+        width: 700px;
+        background-color: #ffffff;
+        background-image: url('../images/robux_wheel.png');
+        border-radius: 50%;
+        display: inline-block;
+        background-size: 100%;
+        rotate: 0deg;
+        background-size: 90%;
+        background-repeat: no-repeat;
+}
+
+
+.triangle{
+        width: 0;
+	height: 0;
+        margin-top: -45rem;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	border-top: 100px solid #00ff00;
+        background-color: rgba(255, 255, 255, 0);
+        display: inline-block;
+        position: absolute;
+
+}
+
+.win{
+        position: absolute;
+        width: 0%;
+        height: 100%;
+        background-color: yellow;
+        margin-top: -47rem;
+}
+
+.jackpot{
+        position: absolute;
+        width: 50%;
+        left: 20rem;
+}
+
+.arrows{
+        position: absolute;
+        width: 30%;
+        left: 35rem;
+        top: 35rem;
+}
+
+.win_button{
+        position: absolute;
+        left: 42rem;
+        top: 40rem;
+        width: 20rem;
+        height: 15rem;
+        visibility: hidden;
+        background-color: #ffffff00;
+        border: none;
+}
+
+@keyframes fade_in{
+        0% { opacity: 0; margin-top: 50rem;}
+        100% { opacity: 1; margin-top: -47rem;}
+}
