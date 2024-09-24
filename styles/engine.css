@@ -1,0 +1,40 @@
+.entity{
+    height: 100px;
+    width: 100px;
+    background-color: #000000;
+    display: inline-block;
+    rotate: 0deg;
+    position: absolute;
+    background-size: contain;
+}
+
+.ghost{
+    height: 100px;
+    width: 100px;
+    background-color: #ffffff;
+    display: inline-block;
+    rotate: 0deg;
+    position: absolute;
+
+    background-size: contain;
+}
+
+
+.text{
+    height: 10px;
+    width: 10px;
+    color: #000000;
+    display: inline-block;
+    rotate: 0deg;
+    position: absolute;
+    max-width: 100000px;
+    width: auto;
+    top: 0px;
+    left: 0px;
+    
+}
+
+
+
+
+

@@ -1,0 +1,69 @@
+.triangle{
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #000000;
+    background-color: rgba(255, 255, 255, 0);
+    position: absolute;
+    left: 47.5%;
+    margin-top: 15rem;
+}
+
+.success {
+    color: green;
+    margin-bottom: 10px;
+}
+
+body{
+    font-family: sans-serif;
+    overflow: hidden; /* Hide scrollbars */
+}
+
+.progress {
+    margin-top: 30rem;
+    position: absolute;
+    width: 90%;
+    height: 30px;
+    margin-bottom: 20px;
+    background-color: #e2e2e2;
+    border-radius: 40px;
+}
+
+.progress p {
+    position: absolute;
+    left: 50%;
+    top: 0%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+
+.progress .bar {
+    position: absolute;
+    border-radius: 40px;
+    height: 100%;
+    width: 0%;
+    background-color: #304ffe;
+}
+@keyframes download_animation{
+}
+
+.container{
+    display: flex; 
+    flex-wrap: wrap; 
+    align-items: center; 
+    justify-content: center; 
+  }
+
+
+@keyframes bar_slide_right{
+    100% {margin-top: 200%; margin-left: 85%;}
+}
+
+@keyframes bar_slide_left{
+    100% {margin-top: 200%; margin-right: 85%;}
+}
+
+@keyframes restart_bar{
+    0% {margin-top: -10rem;}
+    100% {margin-top: 30rem;}
+}
