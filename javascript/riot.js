@@ -180,6 +180,8 @@ function end_game(winner = 1){
 
     el.innerText = end_text;
 
+    document.getElementById('restart').style.visibility =  'visible';
+
 }
 
 
@@ -336,6 +338,23 @@ function start_game(){
     input();
 
     document.getElementById('start_button').style.visibility =  'hidden';
+
+    game_started = true;
+}
+
+function restart_game(){
+    document.getElementById('restart').style.visibility =  'hidden';
+    scores[1]  = 0;
+    scores[2]  = 0;
+    score_board.text(scores[1].toString() + ("\xa0".repeat(50)) + scores[2].toString());
+    var el = document.getElementById('winner_screen');
+    el.style.visibility = 'hidden';
+    //[400, 140]
+    //[1000, 140]
+    player1.pos.x = 400;
+    player1.pos.y = 140;
+    player2.pos.x = 1000;
+    player2.pos.y = 140;
 
     game_started = true;
 }

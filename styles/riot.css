@@ -80,3 +80,16 @@ body{
     width: 0px;
 }
 
+.retry{
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    background-image: url('../images/retry.png');
+    background-size: contain;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    left: 48%;
+    top: 58%;
+    visibility: hidden;
+}
+

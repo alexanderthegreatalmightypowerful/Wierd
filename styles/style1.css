@@ -42,8 +42,9 @@ h1 {
 .download_button{
     width: 800px;
     height: 800px;
-    background-image: url("../images/free_icecream.jpg");
-    background-repeat:round;
+    background-image: url("../images/sus.png");
+    background-color: rgba(0, 0, 0, 0);
+    background-repeat: round;
     border: none;
     animation-name: download_animation;
 }

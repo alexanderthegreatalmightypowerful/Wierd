@@ -1,0 +1,9 @@
+body{
+    background-image: url("../images/bg1.jpg");
+    background-repeat:no-repeat;
+    background-position-y: 30rem;
+}
+
+html{
+    overflow-x:hidden;
+}
