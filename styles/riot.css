@@ -93,3 +93,13 @@ body{
     visibility: hidden;
 }
 
+@keyframes end_animation_winner{
+    0% {left: 800px};
+    20% {left: 400px};
+    30% {left: 800px};
+    100% {left: 800px};
+}
+
+@keyframes end_animation_loser{
+}
+

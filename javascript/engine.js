@@ -71,8 +71,9 @@ class entity{
         this.friction = 0.1;
         this.mass = 1;
         this.texture = null;
-
-
+        this.velocity_lock = [1, 1];
+        this.can_bump == true;
+        this.gravity = 1;
     }
 
     color(r, g, b, a = 255){
@@ -135,6 +136,7 @@ const game_objects = [];
 const ghost_objects = [];
 const text_objects = [];
 const visual_objects = [];
+var run_physics = true;
 
 var held_keys = {'w': false, 'd': false, "a" : false};
 var timed_keys = {};
@@ -152,17 +154,18 @@ var world_offset = new Vec2(0, 40);
 
 
 function dynamic_knock(obj, velocity = [null, null]){
-    if(obj.dynamic == false){return;}
+    if(obj.dynamic == false || obj.can_bump == false){return;}
+
     if(velocity[0] != null){
-    obj.velocity.x += velocity[0];}
+    obj.velocity.x += velocity[0] * obj.velocity_lock[0];}
 
     if(velocity[1] != null){
-    obj.velocity.y += velocity[1];}
+    obj.velocity.y += velocity[1] * obj.velocity_lock[1];}
 }
 
 
 function calculate_x_pos_colliders(col, n){
-    var next = col.velocity.x * (1 - (col.air_friction)) * (1 - 0);
+    var next = col.velocity.x * (1 - (col.air_friction)) * (1 - 0)  * col.velocity_lock[0];
     for(other in game_objects){
         if (game_objects[other] != col){
             var n = game_objects[other];
@@ -204,7 +207,7 @@ function calculate_x_pos_colliders(col, n){
 async function calculate_colliders(col){
     var collided_bottom = false;
     var collided_top = false;
-    var next = (-gravity * (col.velocity.y + gravity_mult));
+    var next = (-gravity * (col.velocity.y + gravity_mult)) * col.velocity_lock[1];;
             for(other in game_objects){
                 if (game_objects[other] != col){
                     var n = game_objects[other];
@@ -218,6 +221,7 @@ async function calculate_colliders(col){
                         
                         if(col.pos.y < n.pos.y + n.collider.y && col.pos.y + col.collider.y > n.pos.y 
                         && col.pos.x + col.collider.x > n.pos.x && col.pos.x < n.pos.x + n.collider.x
+                        && col.velocity_lock[1] != 0
                         ){
                         col.pos.y = n.pos.y - col.collider.y - 1;
                         }
@@ -232,6 +236,7 @@ async function calculate_colliders(col){
 
                         if(col.pos.y < n.pos.y + n.collider.y  && col.pos.y + col.collider.y > n.pos.y
                         && col.pos.x + col.collider.x > n.pos.x && col.pos.x < n.pos.x + n.collider.x
+                        && col.velocity_lock[1] != 0
                         
                         ){ 
                         col.pos.y = n.pos.y + n.collider.y + 1;
@@ -245,12 +250,11 @@ async function calculate_colliders(col){
     if(collided_top == false){col.collide_checker.top = 0;}
 }
 
-
 async function calculate_velocty_x(obj){
     var fric = 0;
     obj.body.style.left = obj.pos.x.toString() + 'px';
     if(obj.collide_checker.bottom == 1){fric = obj.friction;}
-    obj.velocity.x *= (1 - (obj.air_friction)) * (1 - fric);
+    obj.velocity.x *= (1 - (obj.air_friction)) * (1 - fric) * obj.velocity_lock[0];
     calculate_x_pos_colliders(obj);
     obj.pos.x += obj.velocity.x;   
 }
@@ -296,6 +300,7 @@ function calculate_ghosts(){
 
 
 async function do_dynamic_physics(){
+
     for(item in game_objects){
     var obj = game_objects[item];
     if(obj.dynamic == true){
@@ -325,7 +330,8 @@ function update_visuals(){
 
 async function do_physics(){
     const physics_runner = setInterval(() => 
-        {
+        {   
+            if (run_physics == true) {
             update_visuals();
             if(ghost_objects != []){
             calculate_ghosts();}
@@ -340,12 +346,17 @@ async function do_physics(){
             calculate_velocty_x(obj);
         
             if (obj.velocity.y < gravity * -1){
-            obj.velocity.y += gravity_mult;}
+            obj.velocity.y += gravity_mult * obj.gravity;}
             if(obj.velocity.y > 0 && obj.collide_checker.bottom == 1){obj.velocity.y = 0;}
             if(obj.velocity.y < 0 && obj.collide_checker.top == 1){obj.velocity.y = 0;}
-            obj.pos.y -= gravity * (obj.velocity.y);
+            obj.pos.y -= gravity * (obj.velocity.y) * obj.velocity_lock[1];
             obj.body.style.top = obj.pos.y.toString() + 'px';
-        }}} 
+        }else{
+            obj.body.style.top = obj.pos.y.toString() + 'px';
+            obj.body.style.left = obj.pos.x.toString() + 'px';
+        }
+        
+        }}}
     , 1000 / fps);
 }
 
@@ -451,18 +462,21 @@ function add_text(id, scale, position, text = ""){
 
 function init_key_detection(){
     const signalKeypressDuration = (key, duration) => {
+        key = key.toLowerCase();
         //console.log(`Key ${key} pressed for ${duration} ms`);
         timed_keys[key] = duration;
       };
 
       document.body.addEventListener("keydown", ({ key }) => {
         //timed_keys[key] = 0;
+        key = key.toLowerCase();
         if (!timed_keys[key]) timed_keys[key] = Date.now();
         try{held_keys[key] = true;
             }catch(e){}
       });
       document.body.addEventListener("keyup", ({ key }) => {
         //console.log(key);
+        key = key.toLowerCase();
         signalKeypressDuration(key, Date.now() - timed_keys[key]);
         try{
         held_keys[key] = false;
@@ -486,9 +500,6 @@ function scale_entity(obj, scale){
 
 function destroy(obj){
     try{
-
-
-
         obj.body.remove()
         obj.collider.x = 0;
         obj.collider.y = 0;
@@ -526,13 +537,10 @@ class Func{
     constructor(func, ...kwargs){
         this.funcs = kwargs;
         this.func = func;
-
     }
-
     execute(){
         this.func(this.funcs);
     }
-
 }
 
 
@@ -540,11 +548,9 @@ function clamp(value = 0, min = null, max = null){
     if(max != null && value > max){
         value = max;
     }
-
     if(min !=  null && value < min){
         value = min;
     }
-
     return value;
 }
 

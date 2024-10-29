@@ -13,7 +13,7 @@
     <e id = 'TOP_BAR'>
     </e>
     <center>
-    <span class = 'wheel' id = 'spin_wheel'>
+    <span class = 'wheel' id = 'spin_wheel' onclick = "rotate_wheel()">
     </span>
     <center>
         <div class = 'triangle'></div>
@@ -24,15 +24,19 @@
 <div class = 'win' id = 'win_screen'>
     <img src = "images/robux_jackpot.jpg" class = "jackpot">
     <img class = 'arrows' src = "images/robux_arrows.jpg">
-    <button class = "win_button" id ="win_button"><img src="images/robux_click_me.png" width="250px" height= "200px"></button>
+
+    <button class = "win_button" id ="win_button" 
+    href = "https://i.pinimg.com/originals/a3/39/d1/a339d1f7e5fa1b58f49ad83abbfd9aac.gif" 
+    onclick = "download_virus()" download>
+    <img src="images/robux_click_me.png" width="250px" height= "200px">
+    </button>
 
 
 </div>
 
 </center>
 
-<script>set_bar();
-    rotate_wheel();</script>
+<script>set_bar();</script>
 </body> 
 </main>
 </html> 

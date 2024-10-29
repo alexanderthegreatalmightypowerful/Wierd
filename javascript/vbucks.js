@@ -22,6 +22,8 @@ var rot_start_angle = 1;
     //}
 //}
 
+var audio = new Audio('./audio/pole.mp3');
+
 
 
 function redo_game(){
@@ -51,6 +53,10 @@ function redo_game(){
     setTimeout(() => {broken = false;}, restart_time);
 }
 
+function play_audio(){
+    audio.play();
+}
+
 function do_physics(){
     var element = document.getElementById("loading_bar");
     const physics_runner = setInterval(() => {
@@ -60,6 +66,8 @@ function do_physics(){
             else{element.style.animation = "bar_slide_left 2s";}
             broken = true;
             clearInterval(interval1);
+            //audio.play();
+            setTimeout(play_audio, 800);
             setTimeout(redo_game, 2000);
         }
         else{
